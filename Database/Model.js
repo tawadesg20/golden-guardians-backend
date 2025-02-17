@@ -4,6 +4,7 @@ import mongoose from "./Config.js";
 const seniorSchema = mongoose.Schema({
     name:String,
     email:String,
+    phone:String,
     dob:Date,
     address:String,
     emergencycontact:Object,
@@ -25,6 +26,7 @@ const seniorSchema = mongoose.Schema({
 const volunteerSchema = mongoose.Schema({
     name:String,
     email:String,
+    phone:String,
     address:String,
     city:String,
     state:String,

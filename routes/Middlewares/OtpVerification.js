@@ -3,7 +3,6 @@ import {seniorModel,volunteerModel} from "../../Database/Model.js";
 
 const isValidEmail = email => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
-
 const otpVerificationMiddleware = {
     senior:{
         isAllDetails:(req,res,next)=>{

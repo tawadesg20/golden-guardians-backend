@@ -20,7 +20,7 @@ const applicationFormMiddleware = {
             const {email} = req.body;
             const userExists = await volunteerModel.findOne({email:email,userverified:true})
             if(!userExists) 
-                return res.status(403).json({status:false,message:"senior does not exists with given email number"})
+                return res.status(403).json({status:false,message:"senior does not exists with given email id"})
             next()
         }
     }

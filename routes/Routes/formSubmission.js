@@ -69,7 +69,7 @@ const formSubmission = {
               });
               writeStream.on('error', (err) => reject(err));
             });
-            await volunteerModel.updateOne({email:data.email},{$set:{application:{resume:uploadedFile,data:data},applicationStatus:"Submitted"}})
+            await volunteerModel.create({email:data.email,application:{resume:uploadedFile,data:data},applicationStatus:"Submitted"})
           res.status(201).json({
             status:"Ok",
             message: 'Volunteer Application Form Submitted Successfully',

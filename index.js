@@ -49,7 +49,7 @@ app.post("/register/senior", registerMiddleware.senior.isAllDetails,registerMidd
 app.post("/otp-verify/senior", otpVerificationMiddleware.senior.isAllDetails,otpVerificationMiddleware.senior.isCorrectDetails,otpVerificationMiddleware.senior.isNotExists,otpVerificationMiddleware.senior.isCorrectOtp,otpVerificationMiddleware.senior.isOtpNotExpired,otpVerification.senior);
 
 //registration for volunteer
-app.post("/register/volunteer", registerMiddleware.volunteer.isAllDetails,registerMiddleware.volunteer.isCorrectDetails,registerMiddleware.volunteer.isExists,register.volunteer);
+app.post("/register/volunteer", registerMiddleware.volunteer.isAllDetails,registerMiddleware.volunteer.isCorrectDetails,registerMiddleware.volunteer.isExists,registerMiddleware.volunteer.isAccepted,register.volunteer);
 
 //otp verification after volunteer registration
 app.post("/otp-verify/volunteer", otpVerificationMiddleware.volunteer.isAllDetails,otpVerificationMiddleware.volunteer.isCorrectDetails,otpVerificationMiddleware.volunteer.isNotExists,otpVerificationMiddleware.volunteer.isCorrectOtp,otpVerificationMiddleware.volunteer.isOtpNotExpired,otpVerification.volunteer);
@@ -66,7 +66,7 @@ app.post("/login/senior", loginMiddleware.senior.isAllDetails,loginMiddleware.se
 //otp verification after senior login
 app.post("/login/otp-verify/senior",loginVerifyMiddleware.senior.isAllDetails,loginVerifyMiddleware.senior.isCorrectDetails,loginVerifyMiddleware.senior.isNotExists,loginVerifyMiddleware.senior.isCorrectOtp,loginVerify.senior);
 
-app.post("/application",applicationFormMiddleware.isAllDetails,applicationFormMiddleware.isCorrectDetails,applicationFormMiddleware.isNotExists,applicationForm)
+// app.post("/application",applicationFormMiddleware.isAllDetails,applicationFormMiddleware.isCorrectDetails,applicationFormMiddleware.isNotExists,applicationForm)
 
 app.get("/:adminkey/applications",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,admin.getApplications)
 app.get("/:adminkey/application",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,adminMiddleware.isemailNumber,admin.getApplication)
@@ -76,7 +76,7 @@ app.put("/:adminkey/reject-application",adminMiddleware.isAllDetails,adminMiddle
 app.post("/senior/matches",matchingAlgorithmMiddleware.senior.isAllDetails,matchingAlgorithmMiddleware.senior.isCorrectDetails,matchingAlgorithmMiddleware.senior.isNotExists,matchAlgorithm.senior)
 app.post("/volunteer/matches",matchingAlgorithmMiddleware.volunteer.isAllDetails,matchingAlgorithmMiddleware.volunteer.isCorrectDetails,matchingAlgorithmMiddleware.volunteer.isNotExists,matchAlgorithm.volunteer)
 
-app.post("/volunteer/application",upload.single("file"),formSubmissionMiddleware.volunteer.isAllDetails,formSubmissionMiddleware.volunteer.isCorrectDetails,formSubmissionMiddleware.volunteer.isNotExists,formSubmission.volunteer.submit)
+app.post("/volunteer/application",upload.single("file"),formSubmissionMiddleware.volunteer.isAllDetails,formSubmissionMiddleware.volunteer.isCorrectDetails,formSubmissionMiddleware.volunteer.isExists,formSubmissionMiddleware.volunteer.isSubmitted,formSubmission.volunteer.submit)
 app.get("/volunteer/application/:filename",formSubmission.volunteer.get)
 
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
