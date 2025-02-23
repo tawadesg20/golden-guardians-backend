@@ -20,7 +20,7 @@ const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
     return res.status(200).json({status:true,message:"otp sent in your email, submit to register"})
     },
     volunteer:async (req,res) => {
-      let {name,address,emergencycontact,skills,availability,experience,email,city,phone} = req.body;
+      let {name,address,emergencycontact,skills,availability,experience,email,city,phone,state,zipcode} = req.body;
 
       if(!experience)
         experience = " ";
@@ -29,7 +29,7 @@ const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
       const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
         await sendOTPEmail(email,otp)
         
-      const userDetails = {name:name,address:address,emergencycontact:emergencycontact,skills:skills,availability:availability,city:city.trim().toLowerCase(),experience:experience,email:email,phone:phone,otp:otp,expiresAt:expiresAt,userverified:false};
+      const userDetails = {name:name,address:address,emergencycontact:emergencycontact,skills:skills,availability:availability,city:city.trim().toLowerCase(),zipcode:zipcode,experience:experience,state:state,email:email,phone:phone,otp:otp,expiresAt:expiresAt,userverified:false};
       await volunteerModel.updateOne({email:email},{$set:userDetails})
       return res.status(200).json({status:true,message:"otp sent in your email, submit to register"})
 }
