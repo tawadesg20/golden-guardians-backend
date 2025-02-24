@@ -1,9 +1,6 @@
 import {volunteerModel,seniorModel} from "../../Database/Model.js";
 import { ObjectId } from "mongodb";
-<<<<<<< HEAD
 import {sendMessageEmail} from "../../sendOtp.js";
-=======
->>>>>>> f3fcaa69e1dcd183f9246d5dd3333fd215cba07d
 import dotenv from "dotenv";
 dotenv.config()
 
@@ -60,7 +57,6 @@ const volunteer ={
         const volunteer = await volunteerModel.findOne({email:email})
         return res.status(200).json({status:"Ok",message:"Volunteer Fetched Successfully",volunteer:volunteer})
     },
-<<<<<<< HEAD
     getSenior: async (req,res) => {
       const {email} = req.params;
       if(!email)
@@ -68,8 +64,6 @@ const volunteer ={
       const senior = await seniorModel.findOne({email:email})
       return res.status(200).json({status:"Ok",message:"Senior Fetched Successfully",senior:senior})
   },
-=======
->>>>>>> f3fcaa69e1dcd183f9246d5dd3333fd215cba07d
     save:async (req,res) => {
         const {email} = req.params;
         if(!email)
@@ -106,7 +100,6 @@ const volunteer ={
                 await volunteerModel.updateOne({email:data.email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,skills:req.body.skills,hobbies:req.body.hobbies,certification:req.body.certification,experience:req.body.experience}})
         return res.status(200).json({status:"Ok",message:"Volunteer Updated Successfully"})
     },
-<<<<<<< HEAD
     saveSenior:async (req,res) => {
       const {email} = req.params;
       if(!email)
@@ -123,8 +116,6 @@ const volunteer ={
          sendMessageEmail(email,`Name:${name}\nEmail:${email}\nMessage:${message}`)
     return res.status(200).json({status:"Ok",message:"Message Sent Successfully"})
 },
-=======
->>>>>>> f3fcaa69e1dcd183f9246d5dd3333fd215cba07d
 }
 
 export default volunteer;

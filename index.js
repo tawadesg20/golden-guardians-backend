@@ -84,16 +84,11 @@ app.post("/volunteer/matches",matchingAlgorithmMiddleware.volunteer.isAllDetails
 app.post("/volunteer/volunteer/application",upload.single("file"),formSubmissionMiddleware.volunteer.isAllDetails,formSubmissionMiddleware.volunteer.isCorrectDetails,formSubmissionMiddleware.volunteer.isExists,formSubmissionMiddleware.volunteer.isSubmitted,formSubmission.volunteer.submit)
 app.get("/volunteer/application/:filename",formSubmission.volunteer.get)
 app.get("/volunteer/:email",volunteer.get)
-<<<<<<< HEAD
 app.get("/senior/:email",volunteer.getSenior)
 app.post("/volunteer/:email",upload.single("file"),volunteer.save)
 app.post("/senior/senior/:email",upload.single("file"),volunteer.saveSenior)
 app.post("/volunteer/volunteer/connect",volunteer.request)
 app.post("/sendemail",upload.single("file"),volunteer.sendMail);
-=======
-app.post("/volunteer/:email",upload.single("file"),volunteer.save)
-app.post("/volunteer/volunteer/connect",volunteer.request)
->>>>>>> f3fcaa69e1dcd183f9246d5dd3333fd215cba07d
 
 
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
