@@ -1,6 +1,6 @@
 import {seniorModel, volunteerModel} from "../../Database/Model.js";
 import otpGenerator from 'otp-generator';
-import sendOTPEmail from "../../sendOtp.js";
+import {sendOTPEmail} from "../../sendOtp.js";
 import dotenv from "dotenv";
 dotenv.config()
 

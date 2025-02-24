@@ -30,5 +30,23 @@ async function sendOTPEmail(toEmail, otp) {
 
 }
 
+async function sendMessageEmail(toEmail, message) {
+  const mailOptions = {
+    from: 'shivanitawade20@gmail.com',
+    to: "shivanitawade20@gmail.com",
+    subject: 'Message from Golden Guardians',
+    text: message,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log('Error sending email:', error)
+    } else {
+      console.log('Email sent:', info.response);
+    }
+  });
+
+}
+
 // Example Usage
-export default sendOTPEmail;
+export {sendOTPEmail,sendMessageEmail};

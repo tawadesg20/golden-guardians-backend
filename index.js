@@ -23,6 +23,7 @@ import applicationForm from './routes/Routes/ApplicationForm.js';
 import admin from './routes/Routes/Admin.js';
 import matchAlgorithm from './routes/Routes/matchingAlgorithm.js';
 import formSubmission from './routes/Routes/formSubmission.js';
+import volunteer from './routes/Routes/volunteer.js';
 const PORT = 5000;
 
 const storage = multer.memoryStorage(); // Store file in memory (or use diskStorage for saving on disk)
@@ -68,15 +69,26 @@ app.post("/login/otp-verify/senior",loginVerifyMiddleware.senior.isAllDetails,lo
 
 // app.post("/application",applicationFormMiddleware.isAllDetails,applicationFormMiddleware.isCorrectDetails,applicationFormMiddleware.isNotExists,applicationForm)
 
-app.get("/:adminkey/applications",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,admin.getApplications)
-app.get("/:adminkey/application",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,adminMiddleware.isemailNumber,admin.getApplication)
+app.post("/admin",admin.signIn)
+app.get("/:adminkey/volunteers",admin.getVolunteers)
+app.post("/:adminkey/volunteer/assignTask",admin.assignTask)
+app.get("/:adminkey/applications",admin.getApplications)
+app.post("/:adminkey/application",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,adminMiddleware.isemailNumber,admin.getApplication)
 app.put("/:adminkey/approve-application",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,adminMiddleware.isemailNumber,admin.approveApplication)
 app.put("/:adminkey/reject-application",adminMiddleware.isAllDetails,adminMiddleware.isCorrectDetails,adminMiddleware.isemailNumber,admin.rejectApplication)
 
 app.post("/senior/matches",matchingAlgorithmMiddleware.senior.isAllDetails,matchingAlgorithmMiddleware.senior.isCorrectDetails,matchingAlgorithmMiddleware.senior.isNotExists,matchAlgorithm.senior)
 app.post("/volunteer/matches",matchingAlgorithmMiddleware.volunteer.isAllDetails,matchingAlgorithmMiddleware.volunteer.isCorrectDetails,matchingAlgorithmMiddleware.volunteer.isNotExists,matchAlgorithm.volunteer)
 
-app.post("/volunteer/application",upload.single("file"),formSubmissionMiddleware.volunteer.isAllDetails,formSubmissionMiddleware.volunteer.isCorrectDetails,formSubmissionMiddleware.volunteer.isExists,formSubmissionMiddleware.volunteer.isSubmitted,formSubmission.volunteer.submit)
+
+app.post("/volunteer/volunteer/application",upload.single("file"),formSubmissionMiddleware.volunteer.isAllDetails,formSubmissionMiddleware.volunteer.isCorrectDetails,formSubmissionMiddleware.volunteer.isExists,formSubmissionMiddleware.volunteer.isSubmitted,formSubmission.volunteer.submit)
 app.get("/volunteer/application/:filename",formSubmission.volunteer.get)
+app.get("/volunteer/:email",volunteer.get)
+app.get("/senior/:email",volunteer.getSenior)
+app.post("/volunteer/:email",upload.single("file"),volunteer.save)
+app.post("/senior/senior/:email",upload.single("file"),volunteer.saveSenior)
+app.post("/volunteer/volunteer/connect",volunteer.request)
+app.post("/sendemail",upload.single("file"),volunteer.sendMail);
+
 
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
