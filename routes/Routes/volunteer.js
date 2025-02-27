@@ -41,15 +41,16 @@ InitializeGridFS(mongoURI,"volunteerResumes")
 
 
 const volunteer ={
-    request:  async (req,res) => {
-        const {volunteerEmail,seniorEmail} = req.body;
-        if(!volunteerEmail || !seniorEmail)
-            return res.status(400).status({status:"Not Ok",message:"Email is required"})
-        await seniorModel.updateOne({email:seniorEmail},{$set:{volunteer:{email:volunteerEmail,task:"",status:"Requested"}}})
-        await volunteerModel.updateOne({email:volunteerEmail},{$set:{senior:{email:seniorEmail,task:"",status:"Requested"}}})
-        const volunteer = await volunteerModel.findOne({email:volunteerEmail})
-        return res.status(200).json({status:"Ok",message:"Requested Successfully",volunteer:volunteer})
-    },
+  request:  async (req,res) => {
+    const {volunteerEmail,seniorEmail} = req.body;
+    if(!volunteerEmail || !seniorEmail)
+        return res.status(400).status({status:"Not Ok",message:"Email is required"})
+      let curTime = new Date();
+    await seniorModel.updateOne({email:seniorEmail},{$set:{volunteer:{email:volunteerEmail,task:"",status:"Requested",reqTime:curTime}}})
+    await volunteerModel.updateOne({email:volunteerEmail},{$set:{senior:{email:seniorEmail,task:"",status:"Requested",reqTime:curTime}}})
+    const volunteer = await volunteerModel.findOne({email:volunteerEmail})
+    return res.status(200).json({status:"Ok",message:"Requested Successfully",volunteer:volunteer})
+},
     get: async (req,res) => {
         const {email} = req.params;
         if(!email)

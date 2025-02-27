@@ -61,8 +61,9 @@ const admin = {
             return  res.status(400).json({status:"Not Ok",message:"semail or vemail or task or city or date or startTime or endTime is missing"})
         if(adminkey != process.env.ADMIN_KEY)
             return res.status(400).json({status:"Not Ok",message:"Invalid admin key"})
-        await volunteerModel.updateOne({email:vemail},{$set:{senior:{email:semail,task:task,city:city,status:"Assigned",date:date,startTime:startTime,endTime:endTime}}})
-        await seniorModel.updateOne({email:semail},{$set:{volunteer:{email:vemail,task:task,city:city,status:"Assigned",date:date,startTime:startTime,endTime:endTime}}})
+        let curTime = new Date();
+        await volunteerModel.updateOne({email:vemail},{$set:{senior:{email:semail,task:task,city:city,status:"Assigned",date:date,startTime:startTime,endTime:endTime,assTime:curTime.toISOString() }}})
+        await seniorModel.updateOne({email:semail},{$set:{volunteer:{email:vemail,task:task,city:city,status:"Assigned",date:date,startTime:startTime,endTime:endTime,assTime:curTime.toISOString()}}})
         return res.status(200).json({status: "OK", message: "Task Assigned successfully!"});
     }
 };
