@@ -41,16 +41,16 @@ InitializeGridFS(mongoURI,"volunteerResumes")
 
 
 const volunteer ={
-  request:  async (req,res) => {
-    const {volunteerEmail,seniorEmail} = req.body;
-    if(!volunteerEmail || !seniorEmail)
-        return res.status(400).status({status:"Not Ok",message:"Email is required"})
-      let curTime = new Date();
-    await seniorModel.updateOne({email:seniorEmail},{$set:{volunteer:{email:volunteerEmail,task:"",status:"Requested",reqTime:curTime}}})
-    await volunteerModel.updateOne({email:volunteerEmail},{$set:{senior:{email:seniorEmail,task:"",status:"Requested",reqTime:curTime}}})
-    const volunteer = await volunteerModel.findOne({email:volunteerEmail})
-    return res.status(200).json({status:"Ok",message:"Requested Successfully",volunteer:volunteer})
-},
+    request:  async (req,res) => {
+        const {volunteerEmail,seniorEmail} = req.body;
+        if(!volunteerEmail || !seniorEmail)
+            return res.status(400).status({status:"Not Ok",message:"Email is required"})
+          let curTime = new Date();
+        await seniorModel.updateOne({email:seniorEmail},{$set:{volunteer:{email:volunteerEmail,task:"",status:"Requested",reqTime:curTime}}})
+        await volunteerModel.updateOne({email:volunteerEmail},{$set:{senior:{email:seniorEmail,task:"",status:"Requested",reqTime:curTime}}})
+        const volunteer = await volunteerModel.findOne({email:volunteerEmail})
+        return res.status(200).json({status:"Ok",message:"Requested Successfully",volunteer:volunteer})
+    },
     get: async (req,res) => {
         const {email} = req.params;
         if(!email)
@@ -95,10 +95,14 @@ const volunteer ={
                       });
                       writeStream.on('error', (err) => reject(err));
                     })
-                    await volunteerModel.updateOne({email:data.email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,skills:req.body.skills,hobbies:req.body.hobbies,certification:req.body.certification,experience:req.body.experience,"application.resume":uploadedFile}})
+                    let newSkills = (req.body && req.body.skills && req.body.skills.length>0)?req.body.skills.split(","):[]
+                    await volunteerModel.updateOne({email:data.email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,skills:newSkills,hobbies:req.body.hobbies,certification:req.body.certification,experience:req.body.experience,"application.resume":uploadedFile}})
                 }
                 else
-                await volunteerModel.updateOne({email:data.email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,skills:req.body.skills,hobbies:req.body.hobbies,certification:req.body.certification,experience:req.body.experience}})
+                {
+                  let newSkills = (req.body && req.body.skills && req.body.skills.length>0)?req.body.skills.split(","):[]
+                  await volunteerModel.updateOne({email:data.email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,skills:newSkills,hobbies:req.body.hobbies,certification:req.body.certification,experience:req.body.experience}})
+                }
         return res.status(200).json({status:"Ok",message:"Volunteer Updated Successfully"})
     },
     saveSenior:async (req,res) => {
@@ -107,7 +111,9 @@ const volunteer ={
           return res.status(400).status({status:"Not Ok",message:"Email is required"})
               let data = req.body; // Key-value pairs
               console.log(req.body)
-          await seniorModel.updateOne({email:email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,interests:req.body.interests,specialneeds:req.body.specialneeds,emergencycontact:{emergencyContactName:req.body.ename,emergencyContactPhone:req.body.ephone,emergencyContactRelation:req.body.erelation}}})
+              let newInterests = (req.body && req.body.interests && req.body.interests.length>0)?req.body.interests.split(","):[]
+
+          await seniorModel.updateOne({email:email},{$set:{name:req.body.name,address:req.body.address,city:req.body.city,state:req.body.state,zipcode:req.body.zipcode,interests:newInterests,specialneeds:req.body.specialneeds,emergencycontact:{emergencyContactName:req.body.ename,emergencyContactPhone:req.body.ephone,emergencyContactRelation:req.body.erelation}}})
       return res.status(200).json({status:"Ok",message:"Senior Updated Successfully"})
   },
   sendMail:async (req,res) => {
